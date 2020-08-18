@@ -1,24 +1,44 @@
-import React from 'react'
+import React from 'react';
+import classNames from 'classnames';
+
+import removeSvg from '../../assets/img/remove.svg'
+
+import Badge from '../Badge'
 
 import './List.scss'
 
-const List = ({ items }) => {
+const List = ({ items, isRemovable, onClick, onRemove }) => {
+
+    const removeList = (item) => {
+        if (window.confirm('Вы действительно хотите удалить список?')){
+            onRemove(item);
+        }
+    }
+
     return (
-        <ul className="list">
-            {items.map(item => (
-                <li className={item.active ? 'active' : ''}>
+        <ul onClick={onClick} className="list">
+            {items.map((item, index) => (
+                <li key={index} className={classNames(item.className, { 'active': item.active })}>
                     <i>
-                        {item.icon ? ( 
+                        {item.icon ? (
                             item.icon
                         ) : (
-                            <i className={`badge badge--${item.color}`}></i>
-                        )}
+                                <Badge color={item.color} />
+                            )}
                     </i>
                     <span>{item.name}</span>
+                    { isRemovable && (
+                        <img
+                            onClick={() => removeList(item)} 
+                            className="list__remove-button" 
+                            src={removeSvg} 
+                            alt="remove icon" 
+                        /> 
+                    )}
                 </li>
             ))}
         </ul>
     );
-}
+};
 
 export default List;

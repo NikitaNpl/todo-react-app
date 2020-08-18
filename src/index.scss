@@ -9,6 +9,7 @@
 }
 
 .todo {
+  display: flex;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -22,12 +23,46 @@
 
   &__sidebar {
     background: #f4f6f8;
-    height: 100%;
+    height: calc(100% - 120px);
     width: 200px;
     border-right: 1px solid #f1f1f1;
     padding: 60px 20px;
   }
-  
+
+  &__tasks {
+    flex-grow: 1;
+    padding: 60px;
+  }
+}
+
+.button {
+  background: #4DD599;
+  border-radius: 4px;
+  color: #fff;
+  border: 0;
+  padding: 10px 20px;
+  cursor: pointer;
+
+  &:hover {
+    background: darken(#4DD599, 6%);
+  }
+
+  &:active {
+    background: darken(#4DD599, 10%);
+  }
+}
+
+.field {
+  background: #fff;
+  border: 1px solid #efefef;
+  box-sizing: border-box;
+  border-radius: 4px;
+  padding: 8px 12px;
+  width: 100%;
+
+  &:focus {
+    border-color: #dbdbdb;
+  }
 }
 
 
