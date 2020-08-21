@@ -1,6 +1,11 @@
 .list {
     $self: &;
 
+    &:nth-child(2) {
+      max-height: 280px;
+      overflow-y: auto;
+    }
+
     margin-bottom: 30px;
 
     &__add-button {
