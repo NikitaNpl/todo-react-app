@@ -8,7 +8,7 @@ import Badge from '../Badge'
 
 import './List.scss'
 
-const List = ({ items, isRemovable, onClick, onRemove }) => {
+const List = ({ items, isRemovable, setVisiblePopup, onClickItem, onRemove, activeItem}) => {
 
     const removeList = (item) => {
         if (window.confirm(`Вы действительно хотите удалить список "${item.name}"?`)){
@@ -19,11 +19,15 @@ const List = ({ items, isRemovable, onClick, onRemove }) => {
     }
 
     return (
-        <ul onClick={onClick} className="list">
+        <ul onClick={setVisiblePopup} className="list">
             {items.map((item, index) => (
-                <li key={index} className={classNames(item.className, { 'active': item.active })}>
+                <li
+                    key={index} 
+                    className={classNames(item.className, { 'active': item.active ? item.active : activeItem && activeItem.id === item.id })}
+                    onClick={onClickItem ? () => onClickItem(item) : null}
+                >
                     <i>{item.icon ? item.icon : <Badge color={item.color.name} />}</i>
-                    <span>{item.name}</span>
+                <span>{item.name}{item.tasks && ` (${item.tasks.length})`}</span>
                     { isRemovable && (
                         <img
                             onClick={() => removeList(item)} 

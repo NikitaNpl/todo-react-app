@@ -38,6 +38,10 @@
 
       span {
         flex-grow: 1;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        width: 160px;
+        white-space: nowrap;
       }
 
       &:hover {

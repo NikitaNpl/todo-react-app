@@ -38,11 +38,14 @@ const AddList = ({ colors, onAdd }) => {
         })
         .then(({ data }) => {
             const color = colors.find(color => color.id === selectedColor);
-            const listObj = {...data, color: color};
+            const listObj = {...data, color: color, tasks: []};
             onAdd(listObj);
-            onClose();
+        })
+        .catch(() => {
+            alert('Ошибка при добавлении списка!');
         })
         .finally(() => {
+            onClose();
             setIsLoading(false);
         })
     }
@@ -50,14 +53,14 @@ const AddList = ({ colors, onAdd }) => {
     return (
         <div className="add-list">
             <List
-                onClick={() => setVisiblePopup(!visiblePopup)}
+                setVisiblePopup={() => setVisiblePopup(!visiblePopup)}
                 items={[
                     {
                         className: "list__add-button",
                         icon: (
                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M6 1V11" stroke="#868686" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                <path d="M1 6H11" stroke="#868686" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                <path d="M6 1V11" stroke="#7C7C7C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                <path d="M1 6H11" stroke="#7C7C7C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                         ),
                         name: 'Добавить список'

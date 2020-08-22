@@ -5,6 +5,7 @@ import { List, AddList, Tasks} from './components/index'
 function App() {
   const [lists, setLists] = useState(null);
   const [colors, setColors] = useState(null);
+  const [activeItem, setActiveItem] = useState(null);
 
   useEffect(() => {
     axios.get('http://localhost:3001/lists?_expand=color&_embed=tasks').then(({ data }) => {
@@ -17,7 +18,16 @@ function App() {
 
   const onAddList = (obj) => {
     const newList = [...lists, obj];
-    console.log(newList)
+    setLists(newList);
+  }
+
+  const onAddTask = (listId, taskObj) => {
+    const newList = lists.map(list => {
+      if (list.id === listId) {
+        list.tasks = [...list.tasks, taskObj];
+      }
+      return list;
+    });
     setLists(newList);
   }
 
@@ -26,6 +36,17 @@ function App() {
     setLists(newList);     
   }
 
+  const onEditListTitle = (id, title) => {
+    const newList = lists.map(item => {
+      if (item.id === id) {
+        item.name = title;
+      }
+      return item;
+    });
+    console.log(newList)
+    setLists(newList);
+  }
+ 
   return (
     <div className="todo">
       <div className="todo__sidebar">
@@ -42,7 +63,9 @@ function App() {
         { lists ? (
           <List 
             items={lists} 
-            onRemove={(id) => onRemoveHandler(id)} 
+            onRemove={(id) => onRemoveHandler(id)}
+            onClickItem={(item) => setActiveItem(item)}
+            activeItem={activeItem} 
             isRemovable
           />
         ) : (
@@ -51,7 +74,13 @@ function App() {
         <AddList onAdd={onAddList} colors={colors} />
       </div>
       <div className="todo__tasks">
-        {lists && <Tasks list={lists[1]}/>}
+        {lists && activeItem && 
+          <Tasks 
+            list={activeItem} 
+            onEditTitle={onEditListTitle} 
+            onAddTask={onAddTask}
+          />
+        }
       </div>
     </div>
   );
