@@ -2,7 +2,7 @@
     $self: &;
 
     &:nth-child(2) {
-      max-height: 280px;
+      max-height: calc(100vh - 440px);
       overflow-y: auto;
     }
 
